@@ -1,4 +1,8 @@
-// test
-// test 2
-// test 3434
-// 김영광
+const express = require("express");
+const { ppid } = require("process");
+const app = express();
+const POST = 3000;
+
+app.listen(POST, () => {
+  console.log("Server Running");
+});
