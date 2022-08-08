@@ -18,9 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    nickname: DataTypes.STRING,
+    userId: DataTypes.INTEGER,
     content: DataTypes.STRING,
     done: DataTypes.BOOLEAN,
+    order: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Mylist',

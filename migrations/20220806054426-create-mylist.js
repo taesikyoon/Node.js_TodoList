@@ -8,14 +8,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nickname: {
-        type: Sequelize.STRING
+      userId: {
+        type: Sequelize.INTEGER
       },
       content: {
         type: Sequelize.STRING
       },
       done: {
         type: Sequelize.BOOLEAN
+      },
+      order: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
