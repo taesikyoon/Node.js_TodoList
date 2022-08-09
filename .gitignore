@@ -1,2 +1,4 @@
 **/node_modules
 **.env
+sequelize-prac.js
+db-prac.js
