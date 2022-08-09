@@ -1,7 +1,8 @@
 "use strict";
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
-const SECRET_KEY = "Taesik";
+require("dotenv").config();
+const { Users } = require("../models");
+const SECRET_KEY = process.env.SECRET_KEY;
 module.exports = async (req, res, next) => {
   const { authorization } = req.headers;
   const [Type, tokenValue] = authorization.split(" ");
@@ -11,7 +12,7 @@ module.exports = async (req, res, next) => {
   try {
     // 검사시작;
     const { nickname } = jwt.verify(tokenValue, SECRET_KEY);
-    const data = await User.findOne({ where: { nickname } });
+    const data = await Users.findOne({ where: { nickname } });
     if (data === null) res.status(400).json({ errorMessage: "error" });
     res.locals.userId = data.dataValues.userId;
     res.locals.nickname = data.dataValues.nickname;
