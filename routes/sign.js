@@ -8,6 +8,7 @@ const signController = new SignController();
 router.post("/signin", signController.signIn);
 router.post("/signup", signupMiddleware, signController.signUp);
 
+
 module.exports = router;
 
 // router.post("/signIn", async (req, res) => {
