@@ -4,10 +4,10 @@ const POST = 3000;
 const router = express.Router();
 
 
-const mylistsRouter = require("./routes/my-lists");
+const mylistsRouter = require("./routes/mylists.routes")
 
 app.use(express.json());
-app.use("/", [mylistsRouter]);
+app.use("/my-lists", [mylistsRouter]);
 
 
 
