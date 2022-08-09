@@ -2,13 +2,11 @@ const express = require("express");
 const { sequelize } = require("./models");
 const app = express();
 const POST = 3000;
-const router = express.Router();
+const router = require("./routes");
 
-
-const mylistsRouter = require("./routes/my-lists");
+// sequelize.sync({ force : true })
 
 app.use(express.json());
-app.use("/my-lists", [mylistsRouter]);
 
 
 
@@ -21,3 +19,11 @@ app.get('/', (req, res) => {
 app.listen(POST, () => {
   console.log("Server Running");
 });
+
+// const models = require("./models");
+// models.sequelize.sync().then(() => {
+// console.log(" DB 연결 성공");
+// }).catch(err => {
+// console.log("연결 실패");
+// console.log(err);
+// })

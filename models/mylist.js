@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Mylist.init({
     listId: {
       primaryKey: true,
+      autoIncrement: true,
       type: DataTypes.INTEGER,
     },
     userId: DataTypes.INTEGER,
@@ -26,5 +27,15 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Mylist',
   });
+
+  Mylist.associate = function (models) {
+    models.Mylist.belongsTo(models.Users, {
+      foreignKey: "userId",
+      onUpdate: "cascade",
+      onDelete: "cascade",
+    });
+  };
+
+
   return Mylist;
 };
