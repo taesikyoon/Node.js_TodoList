@@ -1,15 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
 const MylistsController = require("../controllers/mylists.controller");
 const mylistsController = new MylistsController();
 
-router.get("/:userId", mylistsController.getMylists); //개인 할일 조회
-router.post("/:userId", mylistsController.createMylist); //개인 할일 생성
-router.put("/:userId/:listId", mylistsController.updateMylist); //개인 할일 수정
-router.delete("/:userId/:listId", mylistsController.deleteMylist); //개인 할일 삭제
-router.patch("/done/:userId/:listId", mylistsController.doneMylist); //개인 할일 완료
-router.patch("/:userId/:listId", mylistsController.orderMylist); //개인 할일 순서 변경
+router.get('/:userId', mylistsController.getMylists); //개인 할일 조회
+router.post('/:userId', mylistsController.createMylist); //개인 할일 생성
+router.put('/:userId/:listId', mylistsController.updateMylist); //개인 할일 수정
+router.delete('/:userId/:listId', mylistsController.deleteMylist); //개인 할일 삭제
+router.patch('/done/:userId/:listId', mylistsController.doneMylist); //개인 할일 완료
+router.patch('/:userId/:listId', mylistsController.orderMylist); //개인 할일 순서 변경
 
 module.exports = router;
 
@@ -31,6 +31,7 @@ module.exports = router;
 //     res.send({ mylists });
 //   }
 // });
+
 
 // //개인 할일 삭제
 // router.delete("/my-lists/:userId/:listId", async (req, res) => {
@@ -74,6 +75,7 @@ module.exports = router;
 //     res.status(400).send({ "message": "리스트 내용이 입력되지 않았거나, 수정할 리스트가 없습니다." });
 //   }
 // })
+
 
 // //개인 할일 생성
 // router.post("/my-lists/:userId", async (req, res) => {
@@ -151,4 +153,6 @@ module.exports = router;
 
 // });
 
+
 // module.exports = router;
+
