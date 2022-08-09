@@ -44,12 +44,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "cascade",
     });
   };
-  Users.associate = function (models) {
-    models.Users.hasMany(models.Mylist, {
-      foreignKey: "userId",
-      onDelete: "cascade",
-    });
-  };
 
   return Users;
 };
