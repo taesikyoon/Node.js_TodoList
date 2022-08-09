@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const authMiddlewares = require("../middlewares/auth.middleware");
 
 const MylistsController = require("../controllers/mylists.controller");
 const mylistsController = new MylistsController();
 
-router.get('/:userId', mylistsController.getMylists); //개인 할일 조회
-router.post('/:userId', mylistsController.createMylist); //개인 할일 생성
-router.put('/:userId/:listId', mylistsController.updateMylist); //개인 할일 수정
-router.delete('/:userId/:listId', mylistsController.deleteMylist); //개인 할일 삭제
-router.patch('/done/:userId/:listId', mylistsController.doneMylist); //개인 할일 완료
-router.patch('/:userId/:listId', mylistsController.orderMylist); //개인 할일 순서 변경
+router.use(authMiddlewares)
+
+router.get('/', mylistsController.getMylists); //개인 할일 조회
+router.post('/', mylistsController.createMylist); //개인 할일 생성
+router.put('/:listId', mylistsController.updateMylist); //개인 할일 수정
+router.delete('/:listId', mylistsController.deleteMylist); //개인 할일 삭제
+router.patch('/done/:listId', mylistsController.doneMylist); //개인 할일 완료
+router.patch('/:listId', mylistsController.orderMylist); //개인 할일 순서 변경
 
 module.exports = router;
 
