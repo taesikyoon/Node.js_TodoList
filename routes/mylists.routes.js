@@ -19,7 +19,6 @@ module.exports = router;
 // const { Mylist } = require("../models")
 // const authMiddleware = require("../middlewares/auth-middleware")
 
-
 // //개인 할 일 조회
 // router.get("/my-lists/:userId", async (req, res) => {
 //   const { userId } = req.params; //authMiddleware 구현 후 res.locals.user에서 받아와도 됨.
@@ -37,7 +36,7 @@ module.exports = router;
 // });
 
 
-// //개인 할일 삭제 
+// //개인 할일 삭제
 // router.delete("/my-lists/:userId/:listId", async (req, res) => {
 //   const { userId } = req.params; //authMiddleware 구현 후 res.locals.user에서 받아와도 됨.
 //   const { listId } = req.params;
@@ -80,7 +79,8 @@ module.exports = router;
 //   }
 // })
 
-// //개인 할일 생성  
+
+// //개인 할일 생성
 // router.post("/my-lists/:userId", async (req, res) => {
 //   const { userId } = req.params; //authMiddleware 구현 후 res.locals.user에서 받아와도 됨.
 //   const { content } = req.body;
@@ -134,14 +134,12 @@ module.exports = router;
 //   const { listId } = req.params;
 //   const { order } = req.body;
 
-
 //   const existsList = await Mylist.findOne({
 //     where: {
 //       userId,
 //       listId,
 //     },
 //   });
-
 
 //   if (order) {
 //     const targetList = await Mylist.findOne({where: {order}});
@@ -158,4 +156,6 @@ module.exports = router;
 
 // });
 
+
 // module.exports = router;
+
