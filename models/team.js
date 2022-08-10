@@ -50,6 +50,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "cascade",
     });
   };
-
+  Teams.associate = function (models) {
+    models.Teams.hasMany(models.TeamLists, {
+      foreignKey: "teamId",
+      onUpdate: "cascade",
+      onDelete: "cascade",
+    });
+  };
   return Teams;
 };

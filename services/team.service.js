@@ -20,10 +20,42 @@ class TeamService {
     }
   };
 
-  deleteTeam = async (teamId, password) => {
-    const getTeamId = await this.teamRepository.checkPassword(teamId, password);
+  deleteTeam = async (teamId, password, userId) => {
+    const checkUser = await this.teamRepository.checkUser(
+      teamId,
+      userId,
+      password
+    );
+    if (checkUser !== null) {
+      await this.teamRepository.deleteTeam(teamId);
+    } else {
+      throw Error("팀장만이 삭제 권한을 가집니다.");
+    }
+  };
 
-    await this.teamRepository.deleteTeam(getTeamId);
+  joinOrLeaveTheTeam = async (userId, teamId, password) => {
+    const existTeam = await this.teamRepository.findTeam(teamId);
+    if (existTeam === null) {
+      throw Error("팀 번호를 확인해주세요.");
+    }
+    const boss = existTeam.bossId;
+    const teampw = existTeam.password;
+    if (userId === boss) {
+      throw Error("팀장은 자기 팀 삭제만 가능합니다.");
+    }
+    const existUserInTeamInfo = await this.teamRepository.findTeamInfo(
+      userId,
+      teamId
+    );
+    console.log(existUserInTeamInfo);
+
+    if (teampw === password) {
+      if (existUserInTeamInfo === null) {
+        await this.teamRepository.createTeamInfo(userId, teamId);
+      } else {
+        await this.teamRepository.deleteTeamInfo(userId, teamId);
+      }
+    } else throw Error("패스워드 까먹으셨수? 잘 생각해보셔");
   };
 }
 module.exports = TeamService;

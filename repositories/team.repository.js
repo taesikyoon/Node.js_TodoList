@@ -21,14 +21,29 @@ module.exports = class TeamRepository {
     await TeamInfos.create({ userId, teamId });
   };
 
-  checkPassword = async (teamId, password) => {
-    const team = await Teams.findOne({
-      where: { teamId, password },
+  checkUser = async (teamId, bossId, password) => {
+    const data = await Teams.findOne({
+      where: { teamId, bossId, password },
     });
-    return team.teamId;
+    console.log(data);
+    return data;
   };
 
   deleteTeam = async (teamId) => {
     await Teams.destroy({ where: { teamId } });
+  };
+
+  findTeam = async (teamId) => {
+    const data = await Teams.findByPk(teamId);
+    return data;
+  };
+
+  findTeamInfo = async (userId, teamId) => {
+    const data = await TeamInfos.findOne({ where: { userId, teamId } });
+    return data;
+  };
+
+  deleteTeamInfo = async (userId, teamId) => {
+    await TeamInfos.destroy({ where: { userId, teamId } });
   };
 };

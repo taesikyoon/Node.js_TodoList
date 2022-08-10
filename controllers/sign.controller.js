@@ -16,8 +16,12 @@ class SignController {
 
   signUp = async (req, res, next) => {
     const { nickname, password } = req.body;
-    const message = await this.signService.signUp(nickname, password);
-    res.json({ message });
+    try {
+      const message = await this.signService.signUp(nickname, password);
+      res.json({ message });
+    } catch (err) {
+      res.status(400).send("회원가입에 실패하였습니다.");
+    }
   };
 }
 module.exports = SignController;
