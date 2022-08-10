@@ -47,13 +47,14 @@ class TeamService {
       userId,
       teamId
     );
-    console.log(existUserInTeamInfo);
 
     if (teampw === password) {
       if (existUserInTeamInfo === null) {
         await this.teamRepository.createTeamInfo(userId, teamId);
+        return true;
       } else {
         await this.teamRepository.deleteTeamInfo(userId, teamId);
+        return false;
       }
     } else throw Error("패스워드 까먹으셨수? 잘 생각해보셔");
   };

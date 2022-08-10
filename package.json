@@ -1,7 +1,6 @@
 {
   "name": "teamtodolist",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "nodemon ./app.js",
@@ -22,5 +21,14 @@
   },
   "devDependencies": {
     "sequelize-cli": "^6.4.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taesikyoon/Node.js_TodoList.git"
+  },
+  "bugs": {
+    "url": "https://github.com/taesikyoon/Node.js_TodoList/issues"
+  },
+  "homepage": "https://github.com/taesikyoon/Node.js_TodoList#readme",
+  "description": ""
 }

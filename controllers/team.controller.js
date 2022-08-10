@@ -30,18 +30,24 @@ class TeamController {
   };
 
   joinOrLeaveTheTeam = async (req, res, next) => {
-    // const { userId } = res.locals;
-    const userId = 2;
+    const { userId } = res.locals;
     const { teamId } = req.params;
     const { password } = req.body;
     try {
-      await this.teamService.joinOrLeaveTheTeam(userId, teamId, password);
+      const result = await this.teamService.joinOrLeaveTheTeam(userId, teamId, password);
+
+      if (result) {
+        res.status(200).send("팀 가입 되었습니다.");
+      } else {
+        res.status(200).send("팀 탈퇴 되었습니다.");
+      }
+
     } catch (err) {
       console.log(err);
       res.status(400).send(err.message);
       return;
     }
-    res.status(200).send("message");
+
   };
 
   leaveTheTeam = async (req, res) => {
