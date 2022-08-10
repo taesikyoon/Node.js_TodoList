@@ -4,16 +4,13 @@ const app = express();
 const POST = 3000;
 const router = require("./routes");
 
-// sequelize.sync({ force : true })
+// sequelize.sync({ force: true });
 
 app.use(express.json());
-
-
-
 app.use("/", express.urlencoded({ extended: false }), router);
 
-app.get('/', (req, res) => {
-  res.send('Hello Todolist!');
+app.get("/", (req, res) => {
+  res.send("Hello Todolist!");
 });
 
 app.listen(POST, () => {
