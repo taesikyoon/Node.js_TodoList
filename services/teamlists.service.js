@@ -8,12 +8,16 @@ class TeamlistsService {
   //내가 속한 팀들 리스트 찾기
   findAll_my_teamlists = async (userId) => {
     try {
-      const [data] = await this.teamlistsRepository.my_team(userId);
-      console.log(data.teamId);
-      const teamId = data.teamId;
-      const allmylists = await this.teamlistsRepository.my_teamlists(teamId);
+      const mylists = await this.teamlistsRepository.my_team(userId);
 
-      console.log(allmylists);
+      let myteamIds = [];
+
+      for (let mylist of mylists) {
+        let { teamId } = mylist;
+        myteamIds.push(teamId);
+      }
+
+      console.log(myteamIds)
 
       let msg;
 
@@ -39,30 +43,31 @@ class TeamlistsService {
       for (let myteam of myteams) {
         let confirm_teamId = myteam.teamId;
 
-        if (teamId != confirm_teamId) {
-          msg = "존재하지 않거나 가입하지 않은 팀입니다.";
+        if (teamId == confirm_teamId) {
+          const maxOrder = await this.teamlistsRepository.orderlist(teamId); //이미 저장된 리스트 중 order 값이 제일 큰 리스트 조회
+
+          let order;
+
+          if (maxOrder) {
+            //제일 큰 order 값이 있을 경우 +1을 하여
+            order = maxOrder.order + 1; //생성하는 리스트의 order값으로 저장
+          } else order = 1; //저장된 리스트가 없다면 order 값은 1로 저장
+
+          await this.teamlistsRepository.create_teamlist(
+            teamId,
+            content,
+            done,
+            order
+          );
+
+          msg = "리스트를 생성하였습니다";
           return msg;
+
         }
+        msg = "존재하지 않거나 가입하지 않은 팀입니다.";
+        return msg;
+
       }
-
-      const maxOrder = await this.teamlistsRepository.orderlist(teamId); //이미 저장된 리스트 중 order 값이 제일 큰 리스트 조회
-
-      let order;
-
-      if (maxOrder) {
-        //제일 큰 order 값이 있을 경우 +1을 하여
-        order = maxOrder.order + 1; //생성하는 리스트의 order값으로 저장
-      } else order = 1; //저장된 리스트가 없다면 order 값은 1로 저장
-
-      await this.teamlistsRepository.create_teamlist(
-        teamId,
-        content,
-        done,
-        order
-      );
-
-      msg = "리스트를 생성하였습니다";
-      return msg;
     } catch (err) {
       console.log(err);
     }
