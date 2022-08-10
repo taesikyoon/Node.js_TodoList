@@ -8,7 +8,6 @@ class TeamlistsController {
   //나의 팀 리스트들 조회
   get_my_teamlists = async (req, res, next) => {
     const { userId } = res.locals;
-    console.log(userId);
 
     try {
       const get_todolist = await this.teamlistsService.findAll_my_teamlists(
@@ -47,42 +46,58 @@ class TeamlistsController {
   //팀 할일 수정
   update_teamlist = async (req, res, next) => {
     const { listId } = req.params;
+    const { userId } = res.locals;
+    const { teamId } = req.params;
     const { content } = req.body;
 
     try {
-      const msg = await this.teamlistsService.updatet_eamlist(listId, content);
+      const msg = await this.teamlistsService.update_teamlist(listId, userId, teamId, content);
+
 
       res.status(201).json({ message: msg });
     } catch (err) {
-      res.status(400).send(err.message);
+      console.log(err)
+      res.status(400).send(err.message)
+      return;
     }
   };
 
   //팀 할일 삭제
   delete_teamlist = async (req, res, next) => {
     const { listId } = req.params;
+    const { userId } = res.locals;
+    const { teamId } = req.params;
 
     try {
-      const msg = await this.teamlistsService.delete_teamlist(listId);
+      const msg = await this.teamlistsService.delete_teamlist(listId,userId,teamId);
 
       res.status(200).json({ message: msg });
     } catch (err) {
       res.status(400).send(err.message);
+      return;
     }
   };
 
   //팀 할일 완료 설정
   done_teamlist = async (req, res, next) => {
-    const { listId } = req.params;
+    const { userId } = res.locals;
+    const { teamId, listId } = req.params;
 
     try {
-      const msg = await this.teamlistsService.done_teamlist(listId);
+      const doneList = await this.teamlistsService.done_teamlist(userId,teamId, listId);
 
-      res.json({ message: msg });
+      if (doneList === 1) {               //done이 1이면 TRUE(할일완료), done이 0이면 FALSE(할일미완료)
+        res.status(200).send("할일 완료 체크되었습니다.");
+      } else {
+        res.status(200).send("할일 완료 체크 해제되었습니다.");
+      }
     } catch (err) {
-      res.status(400).send(err.message);
+      console.log(err)
+      res.status(400).send(err.message)
+      return;
     }
-  };
+
+  }
 
   //팀 할일 순서 변경
   order_teamlist = async (req, res, next) => {
