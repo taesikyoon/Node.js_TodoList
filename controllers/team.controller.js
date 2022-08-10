@@ -30,8 +30,7 @@ class TeamController {
   };
 
   joinOrLeaveTheTeam = async (req, res, next) => {
-    // const { userId } = res.locals;
-    const userId = 2;
+    const { userId } = res.locals;
     const { teamId } = req.params;
     const { password } = req.body;
     try {
