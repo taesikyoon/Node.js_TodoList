@@ -6,14 +6,18 @@ class TeamlistsRepository {
   //Teaminfo
   my_team = async (userId) => {
     const lists = await TeamInfos.findAll({ where: { userId }, raw: true });
-    console.log(lists);
+
     return lists;
   };
 
   //TeamLists
   my_teamlists = async (teamId) => {
-    const lists = await TeamLists.findAll({ where: { teamId }, raw: true });
-    console.log("test", lists);
+    const lists = await TeamLists.findAll({
+      where: { teamId },
+      order: [['order', 'DESC']],
+      raw: true
+    });
+
 
     return lists;
   };
@@ -22,7 +26,6 @@ class TeamlistsRepository {
   teamlist = async (listId) => {
     const onelist = await TeamLists.findOne({ where: { listId }, raw: true });
 
-    console.log(onelist);
 
     return onelist;
   };
@@ -83,6 +86,17 @@ class TeamlistsRepository {
     return teamlist;
   };
 
+  //팀 리스트 완료 체크, 해제(done 수정)
+  doneTeamlist = async (teamId, listId, done) => {
+    await TeamLists.update(
+      { done },
+      { where: { teamId, listId } }
+    );
+
+    return done;
+  };
+
+
   //팀 리스트 순서변경 - 현재리스트와 타켓리스트의 order값 바꿔 저장
   targetTeamlist = async (teamId, order, existsOrder) => {
     await TeamLists.update(
@@ -100,6 +114,7 @@ class TeamlistsRepository {
     return;
   };
 
+  //팀에 속해있는지 확인
   findMyteam = async (userId, teamId) => {
     const data = await TeamInfos.findOne({ where: { userId, teamId } });
     return data;
