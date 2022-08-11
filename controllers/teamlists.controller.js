@@ -5,6 +5,8 @@ class TeamController {
   createTeam = async (req, res, next) => {
     // try {
     const { userId } = res.locals;
+    console.log(userId);
+
     try {
       const { password, teamname } = req.body;
       console.log("test", teamname);
@@ -16,35 +18,90 @@ class TeamController {
     res.status(200).json({ message: "팀생성 되었습니다." });
   };
 
-  deleteTeam = async (req, res, next) => {
-    try {
-      const { teamId } = req.params;
-      const { password } = req.body;
-      const { userId } = res.locals;
-      await this.teamService.deleteTeam(teamId, password, userId);
-    } catch (err) {
-      res.status(400).send(err.message);
-      return;
-    }
-    res.status(200).json({ result: "팀 삭제 되었습니다." });
-  };
-
-  joinOrLeaveTheTeam = async (req, res, next) => {
-    // const { userId } = res.locals;
+  //팀 할일 생성
+  create_teamlist = async (req, res, next) => {
     const { teamId } = req.params;
-    const { password } = req.body;
+    const { content } = req.body;
+    const { userId } = res.locals;
+    const done = 0;
+
     try {
-      await this.teamService.joinOrLeaveTheTeam(userId, teamId, password);
+      const msg = await this.teamlistsService.create_teamlist(
+        teamId,
+        content,
+        userId,
+        done
+      );
+
+      res.status(201).json({ message: msg });
     } catch (err) {
       console.log(err);
       res.status(400).send(err.message);
       return;
     }
-    res.status(200).send("message");
   };
 
-  leaveTheTeam = async (req, res) => {
-    console.log("팀을 떠날 예정");
+  //팀 할일 수정
+  update_teamlist = async (req, res, next) => {
+    const { listId } = req.params;
+    const { content } = req.body;
+
+    try {
+      const msg = await this.teamlistsService.update_teamlist(
+        listId,
+        userId,
+        teamId,
+        content
+      );
+
+      res.status(201).json({ message: msg });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err.message);
+      return;
+    }
+  };
+
+  //팀 할일 삭제
+  delete_teamlist = async (req, res, next) => {
+    const { listId } = req.params;
+
+    try {
+      const msg = await this.teamlistsService.delete_teamlist(listId);
+
+      res.status(200).json({ message: msg });
+    } catch (err) {
+      res.status(400).send(err.message);
+    }
+  };
+
+  //팀 할일 완료 설정
+  done_teamlist = async (req, res, next) => {
+    const { listId } = req.params;
+
+    try {
+      const msg = await this.teamlistsService.done_teamlist(listId);
+
+      res.json({ message: msg });
+    } catch (err) {
+      res.status(400).send(err.message);
+    }
+  };
+
+  //팀 할일 순서 변경
+  order_teamlist = async (req, res, next) => {
+    const { teamId, listId } = req.params;
+    const { userId } = res.locals;
+    const { order } = req.body; // 현재 리스트의 order 값이 아니라, 변경하고 싶은 자리의 order 값 입력
+
+    try {
+      await this.teamlistsService.order_teamlist(teamId, listId, userId, order);
+
+      return res.status(200).json({ message: "리스트 순서 변경되었습니다." });
+    } catch (err) {
+      res.status(400).send(err.message);
+      return;
+    }
   };
 }
 module.exports = TeamController;
